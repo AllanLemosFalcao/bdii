@@ -27,7 +27,7 @@ JOIN Venda v ON f.cpf = v.Funcionarios_cpf_FK
 GROUP BY f.cpf
 ORDER BY valor_total DESC;
 
--- 5. Produtos em promoção do inicio do ano 2024 até o fim.
+-- 5. Produtos em promoção 2024 até o fim de 2025
 SELECT p.nome, pr.nome as promocao, pp.percentualDesconto, pr.dataInicio, pr.dataFim
 FROM Produto p
 JOIN ProdutoPromocao pp ON p.produtoID = pp.produtoID_FK
@@ -37,7 +37,7 @@ WHERE datainicio >= '2024-01-01' and datafim <= '2025-12-31';
 select * from Promocao;
 
 -- 6. Fornecedores e seus produtos
-SELECT f.nome as fornecedor, p.nome as produto, concat('R$ ',format(pf.preco_fornecedor,2))
+SELECT f.nome as fornecedor, p.nome as produto, concat('R$ ',format(pf.preco_fornecedor,2)) as preço_fornecedor
 FROM Fornecedor f
 JOIN ProdutoFornecedor pf ON f.fornecedorID = pf.fornecedorID_FK
 JOIN Produto p ON pf.produtoID_FK = p.produtoID
