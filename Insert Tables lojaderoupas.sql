@@ -8,7 +8,8 @@ INSERT INTO Marca (nome, descricao) VALUES
 ('Puma', 'Marca esportiva global'),
 ('Gucci', 'Marca de luxo italiana'),
 ('Lacoste', 'Marca francesa conhecida pelo jacaré'),
-('Tommy Hilfiger', 'Marca americana de estilo clássico');
+('Tommy Hilfiger', 'Marca americana de estilo clássico'),
+('Under armour', null);
 
 INSERT INTO Produto (nome, descricao, preço, tamanho, cor, dataCadastro, marcaID_FK) VALUES
 ('Camiseta Basic', 'Camiseta básica de algodão', 49.90, 'M', 'Branco', '2023-01-15', 1),
@@ -20,7 +21,9 @@ INSERT INTO Produto (nome, descricao, preço, tamanho, cor, dataCadastro, marcaI
 ('Jaqueta Corta-Vento', 'Jaqueta impermeável', 229.90, 'GG', 'Preto', '2023-07-22', 3),
 ('Saia Midi', 'Saia midi plissada', 89.90, '36', 'Vermelho', '2023-08-30', 4),
 ('Moletom com Zíper', 'Moletom com zíper frontal', 179.90, 'M', 'Verde', '2023-09-14', 7),
-('Shorts Esportivo', 'Shorts para prática esportiva', 69.90, '40', 'Azul', '2023-10-25', 2);
+('Shorts Esportivo', 'Shorts para prática esportiva', 69.90, '40', 'Azul', '2023-10-25', 2),
+('Short', 'Short jeans com barra desfiada', 89.90, '38', 'Azul Claro', null, 2);
+
 
 INSERT INTO Categoria (nome, descricao) VALUES
 ('Feminino', 'Roupas para mulheres'),
@@ -32,7 +35,8 @@ INSERT INTO Categoria (nome, descricao) VALUES
 ('Jeans', 'Peças em tecido jeans'),
 ('Casual', 'Roupas para uso diário'),
 ('Premium', 'Peças de alta qualidade'),
-('Promoção', 'Produtos em oferta');
+('Promoção', 'Produtos em oferta'),
+('Shorts', null);
 
 INSERT INTO Fornecedor (nome, descricao, cnpj, email) VALUES
 ('Distribuidora Moda Ltda', 'Distribuidor de roupas', '12.345.678/0001-90', 'vendas@distribuidora.com'),
@@ -46,7 +50,7 @@ INSERT INTO Fornecedor (nome, descricao, cnpj, email) VALUES
 ('Têxtil Nacional', 'Fabricante de tecidos', '90.123.456/0001-10', 'textil@nacional.com'),
 ('Acessórios Fashion', 'Importador de acessórios', '01.234.567/0001-00', 'fashion@acessorios.com');
 
-INSERT INTO ProdutoCategoria (produtoID_FK, categoriaID_FK) VALUES
+INSERT INTO ProdutoCategoria (produtoID_FK, categoriaID_FK) VALUES 
 (1, 8), (1, 2),  -- Camiseta Basic: Casual e Masculino
 (2, 2), (2, 7),  -- Calça Jeans: Masculino e Jeans
 (3, 4), (3, 6),  -- Tênis Run: Calçados e Esportivo
@@ -56,11 +60,13 @@ INSERT INTO ProdutoCategoria (produtoID_FK, categoriaID_FK) VALUES
 (7, 1), (7, 2), (7, 6),  -- Jaqueta: Feminino, Masculino e Esportivo
 (8, 1), (8, 8),  -- Saia Midi: Feminino e Casual
 (9, 2), (9, 8),  -- Moletom: Masculino e Casual
-(10, 2), (10, 6);  -- Shorts: Masculino e Esportivoprodutopromocao
+(10, 2), (10, 6),  -- Shorts: Masculino e Esportivoprodutopromocao
+(11,11); -- shorts Jeans
+
 
 INSERT INTO ProdutoFornecedor (produtoID_FK, fornecedorID_FK, preco_fornecedor) VALUES
 (1, 1, 35.00), 
-(1, 2, 37.50),
+(1, 2, 42.00),
 (2, 5, 120.00),
 (3, 4, 250.00),
 (4, 2, 100.00), 
@@ -73,29 +79,34 @@ INSERT INTO ProdutoFornecedor (produtoID_FK, fornecedorID_FK, preco_fornecedor) 
 (9, 1, 110.00),
 (10, 7, 45.00);
 
-INSERT INTO Estoque (quantidade, produtoID_FK, data_entrada, preco_entrada) VALUES
-(50, 1, '2023-01-20', 35.00),
-(30, 2, '2023-02-25', 120.00),
-(20, 3, '2023-03-15', 250.00),
-(25, 4, '2023-04-10', 100.00),
-(40, 5, '2023-05-20', 90.00),
-(35, 6, '2023-06-25', 80.00),
-(15, 7, '2023-07-30', 150.00),
-(28, 8, '2023-08-05', 60.00),
-(32, 9, '2023-09-20', 110.00),
-(45, 10, '2023-10-30', 45.00);
+INSERT INTO Estoque (quantidade, produtoID_FK, data_entrada, preco_entrada, fornecedorID_FK) VALUES 
 
-INSERT INTO Cliente (cpf, nome, email, telefone, sexo) VALUES
+(50, 1, '2023-01-20', 35.00, 1),
+(30, 2, '2023-02-25', 120.00, 5),
+(20, 3, '2023-03-15', 250.00, 4),
+(25, 4, '2023-04-10', 105.00, 6),
+(40, 5, '2023-05-20', 90.00, 1),
+(35, 6, '2023-06-25', 80.00, 5),
+(15, 7, '2023-07-30', 150.00, 3),
+(28, 8, '2023-08-05', 60.00, 2),
+(32, 9, '2023-09-20', 110.00, 1),
+(45, 10, '2023-10-30', 45.00, 7),
+(0, 11, '2023-11-26', 0.00, null),
+(20, 1, '2024-01-26', 42.00, 2);
+
+
+INSERT INTO Cliente (cpf, nome, email, telefone, sexo) VALUES 
 ('123.456.789-00', 'Ana Silva', 'ana@email.com', '(11) 98765-4321', 'Feminino'),
-('234.567.890-11', 'Carlos Oliveira', 'carlos@email.com', '(11) 97654-3210', 'Masculino'),
-('345.678.901-22', 'Mariana Costa', 'mariana@email.com', '(11) 96543-2109', 'Feminino'),
-('456.789.012-33', 'Pedro Santos', 'pedro@email.com', '(11) 95432-1098', 'Masculino'),
-('567.890.123-44', 'Juliana Pereira', 'juliana@email.com', '(11) 94321-0987', 'Feminino'),
-('678.901.234-55', 'Lucas Martins', 'lucas@email.com', '(11) 93210-9876', 'Masculino'),
-('789.012.345-66', 'Fernanda Lima', 'fernanda@email.com', '(11) 92109-8765', 'Feminino'),
-('890.123.456-77', 'Ricardo Almeida', 'ricardo@email.com', '(11) 91098-7654', 'Masculino'),
-('901.234.567-88', 'Patrícia Souza', 'patricia@email.com', '(11) 90987-6543', 'Feminino'),
-('012.345.678-99', 'Gustavo Ferreira', 'gustavo@email.com', '(11) 89876-5432', 'Masculino');
+('234.567.890-11', 'Carlos Oliveira', 'carlos@email.com', '(21) 97654-3210', 'Masculino'),
+('345.678.901-22', 'Mariana Costa', 'mariana@email.com', '(31) 96543-2109', 'Feminino'),
+('456.789.012-33', 'Pedro Santos', 'pedro@email.com', '(51) 95432-1098', 'Masculino'),
+('567.890.123-44', 'Juliana Pereira', 'juliana@email.com', '(41) 94321-0987', 'Feminino'),
+('678.901.234-55', 'Lucas Martins', 'lucas@email.com', '(47) 93210-9876', 'Masculino'),
+('789.012.345-66', 'Fernanda Lima', 'fernanda@email.com', '(61) 92109-8765', 'Feminino'),
+('890.123.456-77', 'Ricardo Almeida', 'ricardo@email.com', '(71) 91098-7654', 'Masculino'),
+('901.234.567-88', 'Patrícia Souza', 'patricia@email.com', '(81) 90987-6543', 'Feminino'),
+('012.345.678-99', 'Gustavo Ferreira', 'gustavo@email.com', '(85) 89876-5432', 'Masculino'),
+('987.654.321-11', 'Carlos Henrique Souza', 'carlos.souza@email.com', '(11) 99876-1234', 'Masculino');
 
 INSERT INTO EnderecoCliente (Cliente_cpf_FK, uf, cidade, bairro, rua, numero, comp, cep) VALUES
 ('123.456.789-00', 'SP', 'São Paulo', 'Moema', 'Av. Ibirapuera', 1000, 'Apto 101', '04029-000'),
@@ -158,28 +169,30 @@ INSERT INTO EnderecoFornecedor (fornecedorID_FK, cep, numero, uf, cidade, rua, b
 (10, '11010-000', 1000, 'SP', 'Santos', 'Av. Ana Costa', 'Aparecida');
 
 INSERT INTO Venda (dataVenda, statusEntrega, valorTotal, Funcionarios_cpf_FK, Cliente_cpf_FK) VALUES
-('2023-11-01 10:30:00', 'Entregue', 349.90, '111.222.333-44', '123.456.789-00'),
-('2023-11-02 14:15:00', 'Processando', 199.90, '222.333.444-55', '234.567.890-11'),
-('2023-11-03 16:45:00', 'Enviado', 519.80, '333.444.555-66', '345.678.901-22'),
-('2023-11-04 11:20:00', 'Pendente', 139.90, '444.555.666-77', '456.789.012-33'),
-('2023-11-05 09:10:00', 'Entregue', 229.90, '555.666.777-88', '567.890.123-44'),
-('2023-11-06 13:25:00', 'Cancelado', 89.90, '666.777.888-99', '678.901.234-55'),
-('2023-11-07 15:30:00', 'Entregue', 179.90, '777.888.999-00', '789.012.345-66'),
-('2023-11-08 17:40:00', 'Processando', 69.90, '888.999.000-11', '890.123.456-77'),
-('2023-11-09 12:00:00', 'Enviado', 409.70, '999.000.111-22', '901.234.567-88'),
-('2023-11-10 10:00:00', 'Pendente', 49.90, '000.111.222-33', '012.345.678-99');
+('2023-06-01 10:30:00', 'Entregue', 3499.00, '111.222.333-44', '123.456.789-00'),
+('2023-07-02 14:15:00', 'Processando', 799.60, '222.333.444-55', '234.567.890-11'),
+('2023-07-03 16:45:00', 'Enviado', 455.71, '333.444.555-66', '345.678.901-22'),
+('2023-02-04 11:20:00', 'Pendente', 303.81, '444.555.666-77', '456.789.012-33'),
+('2023-01-05 09:10:00', 'Entregue', 804.65, '555.666.777-88', '567.890.123-44'),
+('2023-05-06 13:25:00', 'Cancelado', 89.90, '666.777.888-99', '678.901.234-55'),
+('2023-05-07 15:30:00', 'Entregue', 179.90, '777.888.999-00', '789.012.345-66'),
+('2023-12-08 17:40:00', 'Processando', 69.90, '888.999.000-11', '890.123.456-77'),
+('2023-03-09 12:00:00', 'Enviado', 409.70, '999.000.111-22', '901.234.567-88'),
+('2023-04-10 10:00:00', 'Pendente', 49.90, '000.111.222-33', '012.345.678-99'),
+('2023-11-11 11:00:00', 'Entregue', 44.91, '000.111.222-33', '012.345.678-99');
 
 INSERT INTO VendaProduto (quantidade, precoUnitario, desconto, vendaID_FK, produtoID_FK) VALUES
-(1, 349.90, 0.00, 1, 3),
-(1, 199.90, 0.00, 2, 2),
-(2, 159.90, 0.00, 3, 4),
-(1, 139.90, 0.00, 4, 5),
-(1, 229.90, 0.00, 5, 7),
+(10, 314.91, 10.00, 1, 3),
+(5, 159.92, 20.00, 2, 2),
+(3, 151.90, 5.00, 3, 4),
+(3, 139.90, 0.00, 4, 5),
+(7, 114.95, 50.00, 5, 7),
 (1, 89.90, 0.00, 6, 8),
 (1, 179.90, 0.00, 7, 9),
 (1, 69.90, 0.00, 8, 10),
-(1, 349.90, 30.00, 9, 3),
-(1, 49.90, 0.00, 10, 1);
+(1, 244.93, 30.00, 9, 3),
+(1, 49.90, 0.00, 10, 1),
+(1, 44.91, 00.00, 11, 1);
 
 INSERT INTO Promocao (nome, descricao, dataInicio, dataFim) VALUES
 ('Black Friday', 'Descontos especiais na Black Friday', '2023-11-24', '2023-11-26'),
@@ -207,14 +220,15 @@ INSERT INTO ProdutoPromocao (percentualDesconto, produtoID_FK, promocaoID_FK) VA
 (35.00, 6, 10); -- Bermuda no Fim de Temporada
 
 INSERT INTO formaPagamento (tipo, valorPago, vendaID_FK) VALUES
-('Cartão de Crédito', 349.90, 1),
-('PIX', 199.90, 2),
-('Cartão de Débito', 259.90, 3),
-('PIX', 259.90, 3),
-('Dinheiro', 139.90, 4),
-('Cartão de Crédito', 229.90, 5),
+('Cartão de Crédito', 3149.10, 1),
+('PIX', 799.60, 2),
+('Cartão de Débito', 227.85, 3),
+('PIX', 227.85, 3),
+('Dinheiro', 419.70, 4),
+('Cartão de Crédito', 804.65, 5),
 ('Cartão de Débito', 89.90, 6),
 ('PIX', 179.90, 7),
 ('Dinheiro', 69.90, 8),
-('Cartão de Crédito', 409.70, 9),
-('Cartão de Débito', 49.90, 10);
+('Cartão de Crédito', 244.93, 9),
+('Cartão de Débito', 49.90, 10),
+('Cartão de Débito', 49.90, 11);
