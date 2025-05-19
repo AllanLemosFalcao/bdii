@@ -1,2 +1,2 @@
-# bdii
-bdii minimundo
+# bdii - Minimundo Loja De Roupas
+bdii Loja de roupas
