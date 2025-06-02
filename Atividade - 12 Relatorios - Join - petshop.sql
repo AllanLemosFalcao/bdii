@@ -142,13 +142,13 @@ ORDER BY DATE(v.data) DESC;
     CONCAT('R$ ', FORMAT(ic.valorCompra, 2)) AS 'Valor Produto',
     f.nome AS 'Nome Fornecedor',
     f.email AS 'Email Fornecedor',
-    GROUP_CONCAT(DISTINCT t.numero SEPARATOR ', ') AS 'Telefone Fornecedor'
+    t.numero AS 'Telefone Fornecedor'
 FROM  Produtos p
 JOIN  ItensCompra ic ON p.idProduto = ic.Produtos_idProduto
 JOIN  Compras c ON ic.Compras_idCompra = c.idCompra
 JOIN  Fornecedor f ON c.Fornecedor_cpf_cnpj = f.cpf_cnpj
 LEFT JOIN Telefone t ON f.cpf_cnpj = t.Fornecedor_cpf_cnpj
-GROUP BY p.idProduto, p.nome, ic.valorCompra, f.nome, f.email
+GROUP BY p.idProduto, p.nome, ic.valorCompra, f.nome, f.email, t.numero
 ORDER BY p.nome ASC;
     
 -- 12. Lista dos Produtos mais vendidos, quantidade (total) de vezes que cada produto participou em vendas e o total de valor apurado com a venda do produto,
