@@ -75,7 +75,7 @@ DETERMINISTIC
 BEGIN
     DECLARE v_total DECIMAL(10,2) DEFAULT 0;
     
-    SELECT COALESCE(SUM(valorTotal), 0) INTO v_total
+    SELECT ifnull(SUM(valorTotal), 0) INTO v_total
     FROM Venda
     WHERE Funcionarios_cpf_FK = p_cpf_funcionario
     AND YEAR(dataVenda) = p_ano;
