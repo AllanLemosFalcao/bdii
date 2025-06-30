@@ -25,7 +25,7 @@ BEGIN
     UPDATE Produto SET preço = preço * (1 + porcentagem/100) WHERE marcaID_FK = marca_id;
 	INSERT INTO HistoricoPrecos (produtoID, nome, preco_antigo, preco_novo, data_alteracao)
     SELECT produtoID, nome, preço / (1 + porcentagem/100), preço, NOW() FROM Produto  WHERE marcaID_FK = marca_id;
-    SELECT * FROM Produto WHERE marcaID_FK = 1;
+    SELECT * FROM Produto WHERE marcaID_FK = marca_ID;
 END $$
 DELIMITER ;
 
