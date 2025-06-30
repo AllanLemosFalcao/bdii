@@ -57,6 +57,11 @@ BEGIN
 END$$
 DELIMITER ;
 
+select * from produto;
+INSERT INTO Produto (nome, descricao, preço, tamanho, cor, dataCadastro, marcaID_FK)
+VALUES ('Camiseta', 'Camiseta polo de algodão penteado', 89.90, 'G', 'Azul', null, 3), 
+('Vestido Midis', 'Vestido midi em viscose', 219.90, 'M', 'Verde', '2023-11-10', 4);
+
 -- Trigger 2. 
 
 -- Trigger 3. 
