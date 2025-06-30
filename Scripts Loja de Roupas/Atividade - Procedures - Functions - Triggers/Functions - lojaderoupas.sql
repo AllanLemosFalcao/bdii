@@ -1,6 +1,7 @@
-Delimiter $$
 
 -- 1. Função para obter a quantidade total de um produto vendido
+
+Delimiter $$
 
 CREATE FUNCTION GetQuantidadeTotalVendidaProduto(pprodutoID INT)
 RETURNS INT
