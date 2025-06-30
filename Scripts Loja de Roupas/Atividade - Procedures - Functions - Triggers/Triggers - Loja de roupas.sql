@@ -187,12 +187,10 @@ VALUES (10.00, 1, 44);
 delimiter $$
 create trigger tgrVerificacaoCPFcliente before insert on cliente for each row 
 begin
-declare CPFnovo varchar(14);
 declare cpfExiste varchar(14);
 declare VerificacaoCPF varchar(100);
 
 select cpf into cpfExiste from cliente c where c.cpf = new.cpf limit 1;
-set CPFnovo = new.cpf;
 
 if new.cpf = cpfExiste then
 
