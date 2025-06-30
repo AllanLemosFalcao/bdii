@@ -98,6 +98,8 @@ DELIMITER $$
 
 CREATE FUNCTION GetTotalProdutosFornecedor(p_fornecedorID INT)
 RETURNS INT
+READS SQL DATA
+DETERMINISTIC
 BEGIN
     DECLARE totalProdutos INT;
     SELECT COUNT(DISTINCT produtoID_FK) INTO totalProdutos
