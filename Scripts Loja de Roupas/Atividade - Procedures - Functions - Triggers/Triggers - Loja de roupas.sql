@@ -64,59 +64,42 @@ VALUES ('Camiseta', 'Camiseta polo de algodão penteado', 89.90, 'G', 'Azul', nu
 
 -- Trigger 2. 
 
--- Trigger 3. 
-
-DELIMITER $$
-CREATE TRIGGER aplicar_promocao_produto
-BEFORE INSERT ON VendaProduto
-FOR EACH ROW
-BEGIN
-    DECLARE desconto_promo DECIMAL(5,2);
-    
-    -- Verifica se há promoção ativa para o produto
-    SELECT percentualDesconto INTO desconto_promo
-    FROM ProdutoPromocao pp
-    JOIN Promocao p ON pp.promocaoID_FK = p.promocaoID
-    WHERE pp.produtoID_FK = NEW.produtoID_FK
-    AND CURDATE() BETWEEN p.dataInicio AND p.dataFim
-    LIMIT 1;
-    
-    -- Aplica desconto se existir promoção
-    IF desconto_promo IS NOT NULL THEN
-        SET NEW.desconto = COALESCE(NEW.desconto, 0) + desconto_promo;
-    END IF;
-END$$
-DELIMITER ;
-
--- Trigger 3. 
-
+-- Trigger 3.
 -- criar tabela necessaria pra inserir registros de alterações; --
 
 CREATE TABLE IF NOT EXISTS LogAlteracoesProduto (
     logID INT AUTO_INCREMENT PRIMARY KEY,
     produtoID INT NOT NULL,
-    acao VARCHAR(10) NOT NULL,
     dataHora DATETIME NOT NULL,
-    usuario VARCHAR(50) NOT NULL,
-    detalhes TEXT
+    usuario VARCHAR(50) NOT NULL
 );
 
 DELIMITER $$
-CREATE TRIGGER log_alteracoes_produto
+CREATE TRIGGER LogAlteracoesProduto
 AFTER UPDATE ON Produto
 FOR EACH ROW
 BEGIN
-    DECLARE mudancas TEXT DEFAULT '';
-    
-    -- Verifica quais campos foram alterados
-    IF NEW.nome != OLD.nome THEN
-        SET mudancas = CONCAT(mudancas, 'Nome: ', OLD.nome, ' → ', NEW.nome, '; ');
-    END IF;
-    
-    IF NEW.preço != OLD.preço THEN
-        SET mudancas = CONCAT(mudancas, 'Preço: ', OLD.preço, ' → ', NEW.preço, '; ');
+    -- Verifica se houve qualquer alteração
+    IF NEW.nome != OLD.nome OR NEW.preço != OLD.preço THEN
+        -- Insere um registro simples no log
+        INSERT INTO LogAlteracoesProduto (
+            produtoID, 
+            dataHora, 
+            usuario
+        ) VALUES (
+            NEW.produtoID, 
+            NOW(), 
+            CURRENT_USER()
+        );
     END IF;
 END$$
+DELIMITER ;
+
+UPDATE Produto 
+SET nome = 'Camiseta Basic Premium', preço = 59.90
+WHERE produtoID = 1;
+select * from LogAlteracoesProduto;
+
 -- Trigger 3. 
 
 -- trigger 4. verificar se categoria e produto existem antes do insert --
